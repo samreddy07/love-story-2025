@@ -1,13 +1,13 @@
 import streamlit as st
 import datetime
-import time
-import base64
 from pathlib import Path
 from PIL import Image
+import base64
+import time
 import folium
 from streamlit_folium import st_folium
 
-st.set_page_config(page_title="Our Love Story ❤️", layout="wide")
+st.set_page_config(page_title="Our Love Story ❤️",layout="wide")
 
 # ---------------- PASSWORD ----------------
 
@@ -26,7 +26,7 @@ def check_password():
             "Enter our secret password ❤️",
             type="password",
             on_change=password_entered,
-            key="password"
+            key="password",
         )
 
         return False
@@ -34,63 +34,16 @@ def check_password():
     elif not st.session_state["password_correct"]:
 
         st.error("Wrong password 💔 Try again")
-
         st.text_input(
             "Enter password",
             type="password",
             on_change=password_entered,
-            key="password"
+            key="password",
         )
-
         return False
 
     else:
         return True
-
-
-# ---------------- INTRO SCREEN ----------------
-
-def intro_screen():
-
-    if "intro_shown" not in st.session_state:
-        st.session_state.intro_shown = False
-
-    if not st.session_state.intro_shown:
-
-        st.markdown("""
-        <style>
-        .intro{
-        height:100vh;
-        display:flex;
-        flex-direction:column;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg,#ff758c,#ff7eb3);
-        color:white;
-        text-align:center;
-        font-family:cursive;
-        }
-
-        .intro h1{
-        font-size:80px;
-        }
-
-        .intro p{
-        font-size:28px;
-        }
-        </style>
-
-        <div class="intro">
-        <h1>Our Love Story ❤️</h1>
-        <p>2025 – The Most Beautiful Year</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        if st.button("Enter Our Story 💕"):
-            st.session_state.intro_shown = True
-            st.rerun()
-
-        st.stop()
 
 
 # ---------------- CSS ----------------
@@ -98,52 +51,75 @@ def intro_screen():
 def load_css():
 
     st.markdown("""
-    <style>
+<style>
 
-    .stApp{
-    background:linear-gradient(135deg,#ff758c,#ff7eb3,#fad0c4);
-    }
+.stApp{
+background:linear-gradient(135deg,#ff758c,#ff7eb3,#fad0c4);
+}
 
-    .title{
-    font-size:60px;
-    text-align:center;
-    color:white;
-    font-family:cursive;
-    }
+/* floating hearts */
 
-    .subtitle{
-    text-align:center;
-    font-size:24px;
-    color:white;
-    margin-bottom:40px;
-    }
+.hearts{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+background-image:url("https://i.imgur.com/Y8z7FhG.png");
+animation:heartsMove 20s linear infinite;
+opacity:0.15;
+}
 
-    .card{
-    background:rgba(255,255,255,0.35);
-    padding:25px;
-    border-radius:20px;
-    margin:25px 0;
-    backdrop-filter:blur(15px);
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
-    }
+@keyframes heartsMove{
+0%{background-position:0 0;}
+100%{background-position:0 1000px;}
+}
 
-    .timeline{
-    background:white;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:10px;
-    }
+.title{
+font-size:60px;
+text-align:center;
+color:white;
+font-family:cursive;
+}
 
-    .love-letter{
-    background:white;
-    padding:40px;
-    border-radius:20px;
-    font-size:20px;
-    line-height:1.8;
-    }
+.subtitle{
+text-align:center;
+font-size:24px;
+color:white;
+margin-bottom:40px;
+}
 
-    </style>
-    """, unsafe_allow_html=True)
+.card{
+background:rgba(255,255,255,0.35);
+padding:25px;
+border-radius:20px;
+margin:25px 0;
+backdrop-filter:blur(15px);
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.timeline{
+background:white;
+padding:15px;
+border-radius:12px;
+margin-bottom:10px;
+}
+
+.love-letter{
+background:white;
+padding:40px;
+border-radius:20px;
+font-size:20px;
+line-height:1.8;
+}
+
+</style>
+
+<div class="hearts"></div>
+
+""",unsafe_allow_html=True)
+
 
 
 # ---------------- MEMORIES ----------------
@@ -157,39 +133,39 @@ def get_memories():
 "image":"photos/photo1.jpg"},
 
 {"title":"First Date","date":"8 Feb 2025",
-"description":"Our first date at Ironhill where we talked about life and dreams.",
+"description":"Our first date at Ironhill where we talked about life, dreams and everything.",
 "image":"photos/photo2.jpg"},
 
 {"title":"You Proposed","date":"12 Apr 2025",
-"description":"You proposed to me on Snapchat and that night felt so peaceful.",
+"description":"You proposed to me on Snapchat and that night I felt so peaceful knowing someone cares so much.",
 "image":"photos/photo3.jpg"},
 
 {"title":"First Kiss","date":"1 May 2025",
-"description":"Our first kiss and our favourite Meghana biryani day.",
+"description":"A day full of emotions and our favourite Meghana biryani.",
 "image":"photos/photo4.jpg"},
 
 {"title":"Kodaikanal Trip","date":"16 May 2025",
-"description":"Exploring Guna caves together.",
+"description":"Exploring Guna caves and enjoying the cool weather together.",
 "image":"photos/photo5.jpg"},
 
-{"title":"Birthday Pondicherry","date":"19 May 2025",
-"description":"Celebrating my birthday with you.",
+{"title":"My Birthday Pondy","date":"19 May 2025",
+"description":"Celebrating my birthday in Pondicherry with you made it unforgettable.",
 "image":"photos/photo6.jpg"},
 
 {"title":"Your Birthday","date":"21 May 2025",
-"description":"We fought but later fixed everything and enjoyed the night.",
+"description":"We fought but later fixed everything and enjoyed the night together.",
 "image":"photos/photo7.jpg"},
 
-{"title":"Office Outing","date":"25 Jun 2025",
-"description":"Even when I was upset you made me smile.",
+{"title":"Office Outing NUSA","date":"25 Jun 2025",
+"description":"Even when I was upset you made my mood better.",
 "image":"photos/photo8.jpg"},
 
 {"title":"Temple Visit","date":"28 Jun 2025",
-"description":"Praying together in Anantapur temple.",
+"description":"We prayed together at Anantapur temple.",
 "image":"photos/photo9.jpg"},
 
 {"title":"Long Drive","date":"29 Jun 2025",
-"description":"A peaceful drive and beautiful memories.",
+"description":"A beautiful drive and sweet memories.",
 "image":"photos/photo10.jpg"},
 
 {"title":"ABV Restobar","date":"12 Jul 2025",
@@ -201,19 +177,19 @@ def get_memories():
 "image":"photos/photo12.jpg"},
 
 {"title":"Sakleshpur Trip","date":"30 Aug 2025",
-"description":"One of our best trips.",
+"description":"One of our best trips ever.",
 "image":"photos/photo13.jpg"},
 
 {"title":"Ironhill Again","date":"12 Sep 2025",
-"description":"Talking for hours together.",
+"description":"Talking for hours and enjoying the night.",
 "image":"photos/photo14.jpg"},
 
 {"title":"Tirumala Temple","date":"15 Nov 2025",
-"description":"Praying for our future.",
+"description":"Praying for our future together.",
 "image":"photos/photo15.jpg"},
 
 {"title":"Office Memory","date":"18 Nov 2025",
-"description":"One of our favourite photos.",
+"description":"One of our favourite photos together.",
 "image":"photos/photo16.jpg"},
 
 {"title":"First Flight","date":"11 Dec 2025",
@@ -221,51 +197,55 @@ def get_memories():
 "image":"photos/photo17.jpg"},
 
 {"title":"Goa Trip","date":"12-15 Dec 2025",
-"description":"Reels, drinks and laughter.",
+"description":"Reels, drinks, laughter and beautiful nights.",
 "image":"photos/photo18.jpg"},
 
-{"title":"End Of Year","date":"31 Dec 2025",
-"description":"Ending the best year together.",
+{"title":"End Of 2025","date":"31 Dec 2025",
+"description":"Ending the best year of my life with you.",
 "image":"photos/photo19.jpg"}
 
 ]
 
 
-# ---------------- MAIN ----------------
+
+# ---------------- MAIN APP ----------------
 
 def main():
 
     load_css()
 
-    intro_screen()
+    st.markdown("<div class='title'>Our Love Story ❤️</div>",unsafe_allow_html=True)
+    st.markdown("<div class='subtitle'>2025 – The Best Year Of My Life</div>",unsafe_allow_html=True)
 
-    st.markdown("<div class='title'>Our Love Story ❤️</div>", unsafe_allow_html=True)
-    st.markdown("<div class='subtitle'>2025 – The Best Year Of My Life</div>", unsafe_allow_html=True)
 
     # relationship counter
+
     start_date = datetime.date(2024,12,31)
     today = datetime.date.today()
+
     st.metric("Days Together ❤️",(today-start_date).days)
 
-    # cinematic slider
-    st.header("📸 Our Beautiful Moments")
+
+
+    # slideshow
+
+    st.header("📸 Our Favourite Moments")
 
     photos = list(Path("photos").glob("*"))
 
-    slider_index = st.slider("Slide through memories ❤️",0,len(photos)-1,0)
+    slide = st.empty()
 
-    img = Image.open(photos[slider_index])
-    st.image(img,use_container_width=True)
+    for img in photos:
 
-    if st.button("▶ Auto Play Memories"):
+        image = Image.open(img)
+        slide.image(image,use_container_width=True)
 
-        for p in photos:
+        time.sleep(2)
 
-            image = Image.open(p)
-            st.image(image,use_container_width=True)
-            time.sleep(2)
+
 
     # memories
+
     st.header("❤️ Our Memories")
 
     memories = get_memories()
@@ -290,17 +270,20 @@ def main():
 
         st.markdown("</div>",unsafe_allow_html=True)
 
+
+
     # timeline
-    st.header("❤️ Our Journey")
 
-    timeline=[
+    st.header("❤️ Our Journey Timeline")
 
-("31 Dec 2024","We met ❤️"),
-("8 Feb 2025","First date"),
+    timeline = [
+
+("31 Dec 2024","We first met ❤️"),
+("8 Feb 2025","Our first date"),
 ("12 Apr 2025","You proposed"),
-("1 May 2025","First kiss"),
+("1 May 2025","Our first kiss"),
 ("16 May 2025","Kodaikanal trip"),
-("19 May 2025","Birthday trip"),
+("19 May 2025","Birthday in Pondy"),
 ("30 Aug 2025","Sakleshpur trip"),
 ("12-15 Dec 2025","Goa trip"),
 ("31 Dec 2025","Best year ended together")
@@ -314,8 +297,11 @@ def main():
         unsafe_allow_html=True
         )
 
+
+
     # map
-    st.header("🌍 Places We Explored")
+
+    st.header("🌍 Places We Explored Together")
 
     m = folium.Map(location=[12.97,77.59],zoom_start=5)
 
@@ -326,7 +312,10 @@ def main():
 
     st_folium(m,width=700,height=500)
 
+
+
     # love letter
+
     if st.button("💌 Open Love Letter"):
 
         st.balloons()
@@ -340,11 +329,15 @@ Looking back at 2025, I realize something very special happened in my life.
 
 I met **you**.
 
-Our conversations, trips, silly fights, long drives and laughs
-made this the most beautiful year of my life.
+From the first time we met during the New Year night, everything slowly started becoming beautiful.
 
-No matter what happens in the future,
-meeting you will always be one of the best things that ever happened to me.
+Our conversations, our trips, our silly fights, our laughs, our long drives, our memories.
+
+Every moment with you became part of the most beautiful year of my life.
+
+Even when life gets stressful or confusing, knowing that you exist in my world gives me peace.
+
+Thank you for being part of my story.
 
 Forever yours ❤️
 
