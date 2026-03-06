@@ -17,24 +17,6 @@ background: linear-gradient(135deg,#ff9a9e,#fad0c4);
 font-family:'Poppins',sans-serif;
 }
 
-/* floating hearts */
-
-body:before{
-content:"❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️ ❤️";
-position:fixed;
-top:-50px;
-left:0;
-width:100%;
-font-size:30px;
-animation:hearts 20s linear infinite;
-opacity:0.2;
-}
-
-@keyframes hearts{
-0%{transform:translateY(0)}
-100%{transform:translateY(120vh)}
-}
-
 .title{
 text-align:center;
 font-family:'Dancing Script',cursive;
@@ -96,23 +78,22 @@ start_date = datetime.date(2024,12,31)
 today = datetime.date.today()
 
 days = (today - start_date).days
-
 st.metric("Days Since Our Story Began ❤️", days)
 
-# ---------------- MEMORIES DATA ----------------
+# ---------------- MEMORIES ----------------
 
 memories = [
 
 {
 "title":"The Night We First Met",
 "date":"31 December 2024",
-"text":"That New Year night changed everything. We met in the mall while everyone was celebrating. I still remember how beautiful you looked. That moment became the beginning of something very special."
+"text":"That New Year night changed everything. We met in the mall while everyone was celebrating. I still remember how beautiful you looked."
 },
 
 {
 "title":"Our First Date",
 "date":"8 February 2025 — Ironhill",
-"text":"Our first date at Ironhill. We talked for hours about life, dreams, and our past. That night felt natural and comfortable."
+"text":"Our first date at Ironhill. We talked about life, dreams and our past. That night felt natural and comfortable."
 },
 
 {
@@ -159,24 +140,34 @@ memories = [
 
 ]
 
-# ---------------- MEMORY SLIDER ----------------
+# ---------------- MEMORY NAVIGATION ----------------
+
+if "memory_index" not in st.session_state:
+    st.session_state.memory_index = 0
 
 st.header("❤️ Our Memories")
 
-index = st.slider(
-"Slide through our memories ❤️",
-0,
-len(memories)-1,
-0
-)
+# navigation buttons
+col1, col2, col3 = st.columns([1,2,1])
 
-memory = memories[index]
+with col1:
+    if st.button("⬅ Previous"):
+        if st.session_state.memory_index > 0:
+            st.session_state.memory_index -= 1
 
+with col3:
+    if st.button("Next ➡"):
+        if st.session_state.memory_index < len(memories)-1:
+            st.session_state.memory_index += 1
+
+memory = memories[st.session_state.memory_index]
+
+# display memory
 col1, col2 = st.columns([1,1])
 
 with col1:
 
-    img_path = f"photos/{index+1}.jpg"
+    img_path = f"photos/{st.session_state.memory_index+1}.jpg"
 
     if Path(img_path).exists():
         image = Image.open(img_path)
@@ -207,16 +198,11 @@ if st.button("Open Love Letter ❤️"):
 
     I remember moments.
 
-    Our long conversations, our trips, our laughs, even our small fights.
+    Our conversations, our trips, our laughs, even our small fights.
 
     Every memory with you made this year unforgettable.
 
-    The truth is simple.
-
     This year was special because **you were in it**.
-
-    And no matter where life takes us next,  
-    these memories will always stay close to my heart.
 
     Forever yours ❤️
 
